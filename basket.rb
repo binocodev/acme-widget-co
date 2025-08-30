@@ -14,9 +14,16 @@ class Basket
     'B01' => Product.new('B01', 7.95, 'Blue Widget')
   }.freeze
 
-  def initialize(catalog = CATALOG, offers = default_offers)
+  DEFAULT_DELIVERY_RULES = {
+    under_50: 4.95,
+    under_90: 2.95,
+    over_90: 0.0
+  }.freeze
+
+  def initialize(catalog = CATALOG, offers = default_offers, delivery_rules = DEFAULT_DELIVERY_RULES)
     @catalog = catalog
     @offers = offers
+    @delivery_rules = delivery_rules
     @order = []
   end
 
@@ -44,7 +51,7 @@ class Basket
   end
 
   def delivery_fee
-    DeliveryCalculator.calculate(subtotal_after_discounts)
+    DeliveryCalculator.calculate(subtotal_after_discounts, @delivery_rules)
   end
 
   def discount

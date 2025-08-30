@@ -1,18 +1,13 @@
 class DeliveryCalculator
-  RULES = {
-    standard: 4.95,
-    discount: 2.95,
-    free: 0
-  }.freeze
 
-  def self.calculate(subtotal_after_discounts)
+  def self.calculate(subtotal_after_discounts, delivery_rules)
     case subtotal_after_discounts
     when 0...50
-      RULES[:standard]
+      delivery_rules[:under_50]
     when 50...90
-      RULES[:discount]
+      delivery_rules[:under_90]
     else
-      RULES[:free]
+      delivery_rules[:over_90]
     end
   end
 end
