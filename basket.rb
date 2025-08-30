@@ -1,8 +1,15 @@
+require_relative 'product'
+require_relative 'offer'
+
 class Basket
   attr_reader :catalog, :delivery_cost_rules, :offers, :order
 
-  Product = Struct.new(:code, :price, :name)
-  Offer = Struct.new(:product_code, :quantity, :discount_value)
+  def initialize(offers = OFFERS, catalog = CATALOG, delivery_cost_rules = DELIVERY_COST_RULES )
+    @catalog = catalog
+    @delivery_cost_rules = delivery_cost_rules
+    @offers = offers
+    @order = []
+  end
 
   CATALOG = {
     'R01' => Product.new('R01', 32.95, 'Red Widget'),
@@ -19,13 +26,6 @@ class Basket
   OFFERS = {
     red_widget_bogo: Offer.new('R01', 2, 0.5)
   }.freeze
-
-  def initialize(offers = OFFERS, catalog = CATALOG, delivery_cost_rules = DELIVERY_COST_RULES )
-    @catalog = catalog
-    @delivery_cost_rules = delivery_cost_rules
-    @offers = offers
-    @order = []
-  end
 
   def add(product_code)
     add_product(product_code)
