@@ -4,8 +4,6 @@ require_relative 'delivery_calculator'
 require_relative 'offer_calculator'
 
 class Basket
-  attr_reader :catalog, :offers, :order
-
   CATALOG = {
     'R01' => Product.new('R01', 32.95, 'Red Widget'),
     'G01' => Product.new('G01', 24.95, 'Green Widget'),
@@ -20,7 +18,6 @@ class Basket
     @catalog = catalog
     @offers = offers
     @order = []
-    @offer_calculator = OfferCalculator.new(@catalog, @offers)
   end
 
   def add(product_code)
@@ -29,9 +26,7 @@ class Basket
   end
 
   def total
-    subtotal_after_discounts = subtotal - discount
-    delivery = DeliveryCalculator.calculate(subtotal_after_discounts)
-    (subtotal_after_discounts + delivery).round(2)
+    (subtotal_after_discounts + delivery_fee).round(2)
   end
 
   private
@@ -40,7 +35,19 @@ class Basket
     @order.sum(&:price)
   end
 
+  def subtotal_after_discounts
+    subtotal - discount
+  end
+
+  def delivery_fee
+    DeliveryCalculator.calculate(subtotal_after_discounts)
+  end
+
   def discount
-    @offer_calculator.calculate_discount(@order)
+    offer_calculator.calculate_discount(@order)
+  end
+
+  def offer_calculator
+    @offer_calculator ||= OfferCalculator.new(@catalog, @offers)
   end
 end
