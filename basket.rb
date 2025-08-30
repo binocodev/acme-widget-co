@@ -1,5 +1,6 @@
 require_relative 'product'
 require_relative 'offer'
+require_relative 'delivery_calculator'
 
 class Basket
   attr_reader :catalog, :delivery_cost_rules, :offers, :order
@@ -45,14 +46,7 @@ class Basket
 
   def delivery_fee
     subtotal_with_discounts = subtotal - offers_discount
-    case subtotal_with_discounts
-    when 0...50
-      @delivery_cost_rules[:standard]
-    when 50...90
-      @delivery_cost_rules[:discount]
-    else
-      @delivery_cost_rules[:free]
-    end
+    DeliveryCalculator.calculate(subtotal_with_discounts)
   end
 
   def subtotal
