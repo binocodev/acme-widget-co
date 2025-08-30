@@ -6,6 +6,8 @@ require_relative 'offer_calculator'
 require_relative 'delivery_calculator'
 
 class Basket
+  attr_reader :order
+
   CATALOG = {
     'R01' => Product.new('R01', 32.95, 'Red Widget'),
     'G01' => Product.new('G01', 24.95, 'Green Widget'),
