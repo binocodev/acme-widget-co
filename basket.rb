@@ -1,7 +1,9 @@
 require_relative 'product'
+require_relative 'offer_strategy'
+require_relative 'bogo_strategy'
 require_relative 'offer'
-require_relative 'delivery_calculator'
 require_relative 'offer_calculator'
+require_relative 'delivery_calculator'
 
 class Basket
   CATALOG = {
@@ -10,11 +12,7 @@ class Basket
     'B01' => Product.new('B01', 7.95, 'Blue Widget')
   }.freeze
 
-  OFFERS = {
-    red_widget_bogo: Offer.new('R01', 2, 0.5)
-  }.freeze
-
-  def initialize(catalog = CATALOG, offers = OFFERS)
+  def initialize(catalog = CATALOG, offers = default_offers)
     @catalog = catalog
     @offers = offers
     @order = []
@@ -30,6 +28,10 @@ class Basket
   end
 
   private
+
+  def default_offers
+    @default_offers ||= [Offer.new('R01', 2, 0.5, BogoStrategy.new)]
+  end
 
   def subtotal
     @order.sum(&:price)
@@ -48,6 +50,6 @@ class Basket
   end
 
   def offer_calculator
-    @offer_calculator ||= OfferCalculator.new(@catalog, @offers)
+    @offer_calculator ||= OfferCalculator.new(@offers)
   end
 end

@@ -1,19 +1,9 @@
 class OfferCalculator
-  def initialize(catalog, offers)
-    @catalog = catalog
+  def initialize(offers)
     @offers = offers
   end
 
   def calculate_discount(order)
-    @offers.values.sum { |offer| apply_offer(offer, order) }.round(2)
-  end
-
-  private
-
-  def apply_offer(offer, order)
-    count = order.count { |product| product.code == offer.product_code }
-    return 0 if count < offer.quantity
-    
-    @catalog[offer.product_code].price * offer.discount_value
+    @offers.sum { |offer| offer.calculate_discount(order) }.round(2)
   end
 end
