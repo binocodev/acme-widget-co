@@ -5,7 +5,7 @@ class OfferCalculator
   end
 
   def calculate_discount(order)
-    @offers.values.sum { |offer| apply_offer(offer, order) }
+    @offers.values.sum { |offer| apply_offer(offer, order) }.round(2)
   end
 
   private
