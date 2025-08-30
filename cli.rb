@@ -1,4 +1,4 @@
-require_relative 'basket'
+require_relative 'lib/basket'
 
 def main
   puts "Acme Widget Co - Basket Calculator"
