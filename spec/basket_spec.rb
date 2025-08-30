@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../basket'
+require_relative '../lib/basket'
 
 describe Basket do
   describe '#total' do

@@ -1,9 +1,9 @@
 require_relative 'product'
-require_relative 'offer_strategy'
-require_relative 'bogo_strategy'
 require_relative 'offer'
 require_relative 'offer_calculator'
 require_relative 'delivery_calculator'
+require_relative 'strategies/offer_strategy'
+require_relative 'strategies/bogo_strategy'
 
 class Basket
   attr_reader :order
